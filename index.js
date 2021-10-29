@@ -9,7 +9,7 @@ const ObjectId = require('mongodb').ObjectId
 app.use(cors())
 app.use(express.json())
 app.get('/', (req, res) => {
-    res.send('Hello From server')
+    res.send('This is the server of travelist')
 })
 
 app.listen(port, () => {
@@ -25,9 +25,15 @@ async function run() {
       await client.connect();
       const spotCollection = client.db("travelist").collection("spots");
       const bookedCollection = client.db("travelist").collection("bookedspot");
-    
+     // find all spots
       app.get('/allspots', async(req, res) => {
         const result = await spotCollection.find({}).toArray()
+        res.send(result) 
+      })
+
+      // find all bookings
+      app.get('/allbookings', async(req, res) => {
+        const result = await bookedCollection.find({}).toArray()
         res.send(result) 
       })
 
