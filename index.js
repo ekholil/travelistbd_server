@@ -72,26 +72,30 @@ async function run() {
         const result = await bookedCollection.deleteOne(query)
         res.json(result)
       })
+      //delete api from manage booking
+      app.delete('/deletebooking/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = {_id : ObjectId(id)}
+        const result = await bookedCollection.deleteOne(query)
+        res.json(result)
+      })
       // update
-    //   app.put('/blogs/:id', async(req, res) => {
-    //     const id = req.params.id;
-    //     const updatedblog = req.body;
-    //     const filter = {_id : ObjectId(id)}
-    //     const options = { upsert: true };
-    //     // create a document that sets the plot of the movie
-    //     const updateDoc = {
-    //       $set: {
-    //         name: updatedblog.name,
-    //         img: updatedblog.img,
-    //         instructor: updatedblog.instructor,
-    //         blog: updatedblog.blog
-    //       },
-    //     };
-    //     const result = await blogCollection.updateOne(filter, updateDoc, options)
-    //     console.log('upadating user ', id)
-    //     res.send(result)
+      app.put('/approve/:id', async(req, res) => {
+        const id = req.params.id;
+        const item = req.body;
+        const filter = {_id : ObjectId(id)}
+        const options = { upsert: true };
+        // create a document that sets the plot of the movie
+        const updateDoc = {
+          $set: {
+            status: item.status,
+          },
+        };
+        const result = await bookedCollection.updateOne(filter, updateDoc, options)
+        console.log('upadating user ', id)
+        res.send(result)
         
-    //   })
+      })
       
     } finally {
     
